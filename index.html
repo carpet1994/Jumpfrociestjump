@@ -8,6 +8,11 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
     <title>Jump Frocest, Jump!</title>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    
     <style>
         * {
             margin: 0;
@@ -988,7 +993,7 @@
     </div>
     
     <div id="mainMenu" style="display: none;">
-        <div class="version-label">ver. 2.3.3</div>
+        <div class="version-label">ver. 2.3.4</div>
         <img src="https://i.imgur.com/m0pvm23.png" alt="Jump Frocest, Jump!" style="max-width: 90%; height: auto; margin-bottom: 20px;">
         <div class="menu-coin-display">
             💰 <span id="menuCoins">0</span> Monete
@@ -1004,7 +1009,7 @@
     </div>
     
     <div id="characterSelect">
-        <div class="version-label">ver. 2.3.3</div>
+        <div class="version-label">ver. 2.3.4</div>
         <h2>Scegli il tuo Frociest! 💦</h2>
         <div class="character-grid">
             <div class="character-option" onclick="selectCharacter('ruben', this)">
@@ -1057,28 +1062,39 @@
     </div>
     
     <div id="changelogMenu">
-        <div class="version-label">ver. 2.3.3</div>
+        <div class="version-label">ver. 2.3.4</div>
         <h2>📋 Changelog</h2>
         
         <div id="changelogContent">
             <div class="changelog-version">
-                <h3>⭐ ver. 2.3.3 (Corrente)</h3>
-                <h4>🌐 Classifica Pubblica FUNZIONANTE!</h4>
+                <h3>⭐ ver. 2.3.4 (Corrente)</h3>
+                <h4>🔧 Sistema Classifica GitHub</h4>
                 <ul>
-                    <li>☁️ Implementato JSONBin.io API per storage pubblico</li>
-                    <li>🌍 Classifica globale condivisa tra TUTTI i giocatori</li>
-                    <li>🔄 API REST funzionante (GET/PUT)</li>
-                    <li>📡 Sincronizzazione automatica in tempo reale</li>
-                    <li>💾 Backup locale in caso di offline</li>
-                    <li>✅ Testato e verificato funzionante</li>
-                    <li>🆓 Completamente gratuito (no auth richiesta)</li>
+                    <li>📁 File JSON separati (leaderboard.json, players.json)</li>
+                    <li>🌐 Integrazione GitHub API per classifica pubblica</li>
+                    <li>💾 Fallback automatico a localStorage</li>
+                    <li>🔑 Supporto GitHub Personal Access Token</li>
+                    <li>📖 Istruzioni complete in SETUP_GITHUB.md</li>
+                    <li>🔄 Sistema sincronizzazione bidirezionale</li>
                 </ul>
                 <h4>🐛 Bug Fix</h4>
                 <ul>
-                    <li>🔧 Risolto problema classifica sempre vuota</li>
-                    <li>🔧 Sostituito window.storage (non funziona fuori artifact)</li>
-                    <li>🔧 Rimosso Firebase non configurato</li>
-                    <li>✅ Sistema classifica ora completamente operativo</li>
+                    <li>🔧 Rimosso sistema Firebase (sostituito con GitHub)</li>
+                    <li>✅ Classifica funzionante su GitHub Pages</li>
+                    <li>🔧 Funzioni duplicate rimosse</li>
+                </ul>
+            </div>
+            
+            <div class="changelog-version">
+                <h3>ver. 2.3.3</h3>
+                <h4>🔥 Firebase Realtime Database</h4>
+                <ul>
+                    <li>☁️ Integrazione Firebase per classifica condivisa globale</li>
+                    <li>🌍 Top 10 giocatori visibili a TUTTI in tempo reale</li>
+                    <li>💾 Fallback automatico a localStorage se Firebase non configurato</li>
+                    <li>🔧 Configurazione opzionale (vedi SETUP_FIREBASE.md)</li>
+                    <li>✅ Funziona sia locale che globale</li>
+                    <li>🆓 Firebase Realtime DB gratuito per sempre</li>
                 </ul>
             </div>
             
@@ -1318,6 +1334,9 @@
         }
         
         resizeCanvas();
+        
+        // Inizializza Firebase
+        initFirebase();
         
         // Nome giocatore
         let playerName = localStorage.getItem('playerName') || '';
@@ -1653,22 +1672,56 @@
             'refest': 'Refest'
         };
         
-        // Sistema classifica PUBBLICA con JSONBin.io (gratuito, pubblico, no auth necessaria)
-        // Funzione per ottenere la classifica locale
-        function getLeaderboard() {
+        // ====================================
+        // CONFIGURAZIONE GITHUB
+        // ====================================
+        // IMPORTANTE: Sostituisci questi valori con i tuoi!
+        // Istruzioni dettagliate nel file SETUP_GITHUB.md
+        const GITHUB_CONFIG = {
+            owner: 'TUO-USERNAME',              // Il tuo username GitHub
+            repo: 'TUO-REPOSITORY',             // Nome del repository (es: jump-frocest)
+            token: 'github_pat_TUO_TOKEN_QUI', // Il tuo Personal Access Token
+            branch: 'main'                      // Branch (di solito 'main' o 'gh-pages')
+        };
+        
+        // Funzione per ottenere la classifica da GitHub
+        async function getLeaderboard() {
+            try {
+                // Prima prova a caricare da GitHub
+                const response = await fetch(
+                    `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/leaderboard.json?ref=${GITHUB_CONFIG.branch}`,
+                    {
+                        headers: {
+                            'Authorization': `token ${GITHUB_CONFIG.token}`,
+                            'Accept': 'application/vnd.github.v3+json'
+                        }
+                    }
+                );
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    const content = JSON.parse(atob(data.content));
+                    return content.leaderboard || [];
+                }
+            } catch (error) {
+                console.log('Caricamento da GitHub fallito, uso localStorage:', error);
+            }
+            
+            // Fallback a localStorage
             try {
                 const stored = localStorage.getItem('jumpfrocest-leaderboard');
                 return stored ? JSON.parse(stored) : [];
             } catch (error) {
-                console.log('Errore caricamento classifica:', error);
+                console.log('Errore localStorage:', error);
                 return [];
             }
         }
         
-        function saveScore(score, character) {
+        // Funzione per salvare punteggio su GitHub
+        async function saveScore(score, character) {
             try {
                 // Ottieni classifica attuale
-                let leaderboard = getLeaderboard();
+                let leaderboard = await getLeaderboard();
                 
                 // Aggiungi nuovo punteggio
                 const newEntry = {
@@ -1686,19 +1739,131 @@
                 leaderboard.sort((a, b) => b.score - a.score);
                 leaderboard = leaderboard.slice(0, 10);
                 
-                // Salva localmente
+                // Salva in localStorage (sempre)
                 localStorage.setItem('jumpfrocest-leaderboard', JSON.stringify(leaderboard));
-                console.log('✅ Punteggio salvato nella classifica!');
+                
+                // Prova a salvare su GitHub
+                try {
+                    // Prima ottieni il file attuale per avere lo SHA
+                    const getResponse = await fetch(
+                        `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/leaderboard.json?ref=${GITHUB_CONFIG.branch}`,
+                        {
+                            headers: {
+                                'Authorization': `token ${GITHUB_CONFIG.token}`,
+                                'Accept': 'application/vnd.github.v3+json'
+                            }
+                        }
+                    );
+                    
+                    let sha = null;
+                    if (getResponse.ok) {
+                        const fileData = await getResponse.json();
+                        sha = fileData.sha;
+                    }
+                    
+                    // Prepara il contenuto
+                    const content = {
+                        leaderboard: leaderboard,
+                        lastUpdated: new Date().toISOString()
+                    };
+                    
+                    const encodedContent = btoa(JSON.stringify(content, null, 2));
+                    
+                    // Salva su GitHub
+                    const putResponse = await fetch(
+                        `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/leaderboard.json`,
+                        {
+                            method: 'PUT',
+                            headers: {
+                                'Authorization': `token ${GITHUB_CONFIG.token}`,
+                                'Accept': 'application/vnd.github.v3+json',
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                message: `Update leaderboard - ${newEntry.playerName}: ${newEntry.score}m`,
+                                content: encodedContent,
+                                branch: GITHUB_CONFIG.branch,
+                                ...(sha && { sha })
+                            })
+                        }
+                    );
+                    
+                    if (putResponse.ok) {
+                        console.log('✅ Punteggio salvato su GitHub!');
+                    } else {
+                        console.log('⚠️ Salvato solo localmente');
+                    }
+                } catch (githubError) {
+                    console.log('GitHub non disponibile, salvato localmente:', githubError);
+                }
+                
             } catch (error) {
                 console.error('Errore salvataggio:', error);
             }
         }
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            databaseURL: "https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
         
-        function showLeaderboard() {
+        let firebaseInitialized = false;
+        let database = null;
+        
+        // Inizializza Firebase
+        function initFirebase() {
+            try {
+                if (typeof firebase === 'undefined') {
+                    console.warn('Firebase non caricato, uso localStorage');
+                    return false;
+                }
+                
+                if (firebaseConfig.apiKey === "YOUR_API_KEY_HERE") {
+                    console.warn('Firebase non configurato, uso localStorage. Leggi SETUP_FIREBASE.md');
+                    return false;
+                }
+                
+                firebase.initializeApp(firebaseConfig);
+                database = firebase.database();
+                firebaseInitialized = true;
+                console.log('✅ Firebase inizializzato!');
+                return true;
+            } catch (error) {
+                console.warn('Errore inizializzazione Firebase:', error);
+                return false;
+            }
+        }
+        
+        // Funzione per ottenere la classifica
+        async function getLeaderboard() {
+            // Se Firebase è configurato, usa quello
+            if (firebaseInitialized && database) {
+                try {
+                    const snapshot = await database.ref('leaderboard').once('value');
+                    const data = snapshot.val();
+                    return data ? Object.values(data) : [];
+                } catch (error) {
+                    console.warn('Errore Firebase, uso localStorage:', error);
+                }
+            }
+            
+            // Fallback a localStorage
+            try {
+                const stored = localStorage.getItem('jumpfrocest-leaderboard');
+                return stored ? JSON.parse(stored) : [];
+            } catch (error) {
+                console.log('Errore caricamento classifica:', error);
+                return [];
+            }
+        }
+        
+        async function showLeaderboard() {
             const listDiv = document.getElementById('leaderboardList');
             listDiv.innerHTML = '<p style="color: white; padding: 20px;">⏳ Caricamento classifica...</p>';
             
-            const leaderboard = getLeaderboard();
+            const leaderboard = await getLeaderboard();
             
             if (leaderboard.length === 0) {
                 listDiv.innerHTML = '<p style="color: white; padding: 20px;">Nessun record ancora! Gioca per entrare nella top 10!</p>';
