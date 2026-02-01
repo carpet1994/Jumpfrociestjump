@@ -1032,7 +1032,7 @@
     </div>
     
     <div id="characterCard">
-        <div class="version-label">ver. 2.3.3</div>
+        <div class="version-label">ver. 2.3.4</div>
         <h2 id="cardCharacterName"></h2>
         <img id="cardCharacterImg" src="" alt="">
         <div class="ability-section">
@@ -1045,7 +1045,7 @@
     </div>
     
     <div id="leaderboardMenu">
-        <div class="version-label">ver. 2.3.3</div>
+        <div class="version-label">ver. 2.3.4</div>
         <h2>🏆 Top 10 Record Globali</h2>
         <div id="leaderboardList" style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px; margin: 20px 0; max-height: 400px; overflow-y: auto;">
             <!-- La classifica verrà riempita dinamicamente -->
@@ -1054,7 +1054,7 @@
     </div>
     
     <div id="creditsMenu">
-        <div class="version-label">ver. 2.3.3</div>
+        <div class="version-label">ver. 2.3.4</div>
         <h2 style="color: #FFD700; font-size: 36px; margin-bottom: 30px;">Crediti</h2>
         <p style="color: white; font-size: 24px; margin-bottom: 20px;">developed by</p>
         <img src="https://i.imgur.com/N5L5BNN.png" alt="Flying Carpet" style="max-width: 200px; height: auto; margin-bottom: 30px;">
@@ -1678,9 +1678,9 @@
         // IMPORTANTE: Sostituisci questi valori con i tuoi!
         // Istruzioni dettagliate nel file SETUP_GITHUB.md
         const GITHUB_CONFIG = {
-            owner: 'carpet1994',              // Il tuo username GitHub
-            repo: 'Jumpfrociestjump',             // Nome del repository (es: jump-frocest)
-            token: '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', // Il tuo Personal Access Token
+            owner: 'TUO-USERNAME',              // Il tuo username GitHub
+            repo: 'TUO-REPOSITORY',             // Nome del repository (es: jump-frocest)
+            token: 'github_pat_TUO_TOKEN_QUI', // Il tuo Personal Access Token
             branch: 'main'                      // Branch (di solito 'main' o 'gh-pages')
         };
         
@@ -2528,6 +2528,9 @@
         // Nascondi controlli e score inizialmente
         document.getElementById('controls').style.display = 'none';
         document.getElementById('score').style.display = 'none';
+        
+        // Controlla se il nome è già salvato all'avvio
+        checkPlayerName();
     </script>
 </body>
 </html>
