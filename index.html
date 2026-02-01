@@ -984,7 +984,7 @@
 <body>
     <!-- Welcome Screen -->
     <div id="welcomeScreen">
-        <div class="version-label">ver. 2.3.3</div>
+        <div class="version-label">ver. 2.3.5</div>
         <h1>🌈 Benvenuto! 🌈</h1>
         <p>Inserisci il tuo nome per iniziare l'avventura!</p>
         <input type="text" id="playerNameInput" placeholder="Il tuo nome..." maxlength="20" autocomplete="off">
@@ -993,7 +993,7 @@
     </div>
     
     <div id="mainMenu" style="display: none;">
-        <div class="version-label">ver. 2.3.4</div>
+        <div class="version-label">ver. 2.3.5</div>
         <img src="https://i.imgur.com/m0pvm23.png" alt="Jump Frocest, Jump!" style="max-width: 90%; height: auto; margin-bottom: 20px;">
         <div class="menu-coin-display">
             💰 <span id="menuCoins">0</span> Monete
@@ -1009,7 +1009,7 @@
     </div>
     
     <div id="characterSelect">
-        <div class="version-label">ver. 2.3.4</div>
+        <div class="version-label">ver. 2.3.5</div>
         <h2>Scegli il tuo Frociest! 💦</h2>
         <div class="character-grid">
             <div class="character-option" onclick="selectCharacter('ruben', this)">
@@ -1032,7 +1032,7 @@
     </div>
     
     <div id="characterCard">
-        <div class="version-label">ver. 2.3.4</div>
+        <div class="version-label">ver. 2.3.5</div>
         <h2 id="cardCharacterName"></h2>
         <img id="cardCharacterImg" src="" alt="">
         <div class="ability-section">
@@ -1045,7 +1045,7 @@
     </div>
     
     <div id="leaderboardMenu">
-        <div class="version-label">ver. 2.3.4</div>
+        <div class="version-label">ver. 2.3.5</div>
         <h2>🏆 Top 10 Record Globali</h2>
         <div id="leaderboardList" style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px; margin: 20px 0; max-height: 400px; overflow-y: auto;">
             <!-- La classifica verrà riempita dinamicamente -->
@@ -1054,7 +1054,7 @@
     </div>
     
     <div id="creditsMenu">
-        <div class="version-label">ver. 2.3.4</div>
+        <div class="version-label">ver. 2.3.5</div>
         <h2 style="color: #FFD700; font-size: 36px; margin-bottom: 30px;">Crediti</h2>
         <p style="color: white; font-size: 24px; margin-bottom: 20px;">developed by</p>
         <img src="https://i.imgur.com/N5L5BNN.png" alt="Flying Carpet" style="max-width: 200px; height: auto; margin-bottom: 30px;">
@@ -1062,12 +1062,29 @@
     </div>
     
     <div id="changelogMenu">
-        <div class="version-label">ver. 2.3.4</div>
+        <div class="version-label">ver. 2.3.5</div>
         <h2>📋 Changelog</h2>
         
         <div id="changelogContent">
             <div class="changelog-version">
-                <h3>⭐ ver. 2.3.4 (Corrente)</h3>
+                <h3>⭐ ver. 2.3.5 (Corrente)</h3>
+                <h4>🔧 Configurazione Completa GitHub</h4>
+                <ul>
+                    <li>✅ Configurazione GitHub preimpostata (carpet1994/Jumpfrociestjump)</li>
+                    <li>🔑 Token API integrato per accesso automatico</li>
+                    <li>🌐 Classifica globale funzionante su GitHub Pages</li>
+                    <li>📝 File leaderboard.json iniziale incluso</li>
+                </ul>
+                <h4>🐛 Bug Fix</h4>
+                <ul>
+                    <li>🔧 Risolto bug inserimento nome - ora passa al menu principale</li>
+                    <li>✅ checkPlayerName() chiamato all'avvio dell'app</li>
+                    <li>🎯 Tutte le versioni aggiornate correttamente</li>
+                </ul>
+            </div>
+            
+            <div class="changelog-version">
+                <h3>ver. 2.3.4</h3>
                 <h4>🔧 Sistema Classifica GitHub</h4>
                 <ul>
                     <li>📁 File JSON separati (leaderboard.json, players.json)</li>
@@ -1675,13 +1692,11 @@
         // ====================================
         // CONFIGURAZIONE GITHUB
         // ====================================
-        // IMPORTANTE: Sostituisci questi valori con i tuoi!
-        // Istruzioni dettagliate nel file SETUP_GITHUB.md
         const GITHUB_CONFIG = {
-            owner: 'carpet1994',              // Il tuo username GitHub
-            repo: 'Jumpfrociestjump',             // Nome del repository (es: jump-frocest)
-            token: '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', // Il tuo Personal Access Token
-            branch: 'main'                      // Branch (di solito 'main' o 'gh-pages')
+            owner: 'carpet1994',
+            repo: 'Jumpfrociestjump',
+            token: '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',
+            branch: 'main'
         };
         
         // Funzione per ottenere la classifica da GitHub
