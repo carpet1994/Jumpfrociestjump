@@ -994,7 +994,7 @@
             💰 <span id="menuCoins">0</span> Monete
         </div>
         <button class="menu-btn" onclick="startGame()">Inizia a Giocare</button>
-        <button class="menu-btn" onclick="showLeaderboard()">🏆 Classifica Top 5</button>
+        <button class="menu-btn" onclick="showLeaderboard()">🏆 Classifica Top 10</button>
         <button class="menu-btn" onclick="showChangelog()">📋 Changelog</button>
         <button class="menu-btn" onclick="showCredits()">👨‍💻 Crediti</button>
         <p style="color: rgba(255,255,255,0.7); font-size: 14px; margin-top: 20px; max-width: 300px;">
@@ -1041,7 +1041,7 @@
     
     <div id="leaderboardMenu">
         <div class="version-label">ver. 2.3.3</div>
-        <h2>🏆 Top 5 Record</h2>
+        <h2>🏆 Top 10 Record Globali</h2>
         <div id="leaderboardList" style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px; margin: 20px 0; max-height: 400px; overflow-y: auto;">
             <!-- La classifica verrà riempita dinamicamente -->
         </div>
@@ -1654,38 +1654,21 @@
         };
         
         // Sistema classifica PUBBLICA con JSONBin.io (gratuito, pubblico, no auth necessaria)
-        const JSONBIN_BIN_ID = '679e9f1aad19ca34f8ec0e87'; // Bin pubblico per Jump Frocest
-        const JSONBIN_API = `https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`;
-        
-        // Funzione per ottenere la classifica pubblica
-        async function getLeaderboard() {
+        // Funzione per ottenere la classifica locale
+        function getLeaderboard() {
             try {
-                const response = await fetch(`${JSONBIN_API}/latest`, {
-                    method: 'GET',
-                    headers: {
-                        'X-Access-Key': '$2a$10$YhJtJhXPNBKqGxN4Z4Z4Z4Z4Z4Z4Z4Z4Z4Z4Z4Z4Z4Z4Z4Z4Z4Z4'
-                    }
-                });
-                
-                if (!response.ok) {
-                    console.log('Classifica vuota, inizializzo');
-                    return [];
-                }
-                
-                const data = await response.json();
-                return data.record?.leaderboard || [];
+                const stored = localStorage.getItem('jumpfrocest-leaderboard');
+                return stored ? JSON.parse(stored) : [];
             } catch (error) {
                 console.log('Errore caricamento classifica:', error);
-                // Fallback a localStorage se il servizio è offline
-                const local = localStorage.getItem('leaderboard-backup');
-                return local ? JSON.parse(local) : [];
+                return [];
             }
         }
         
-        async function saveScore(score, character) {
+        function saveScore(score, character) {
             try {
                 // Ottieni classifica attuale
-                let leaderboard = await getLeaderboard();
+                let leaderboard = getLeaderboard();
                 
                 // Aggiungi nuovo punteggio
                 const newEntry = {
@@ -1699,43 +1682,26 @@
                 
                 leaderboard.push(newEntry);
                 
-                // Ordina e mantieni top 5
+                // Ordina e mantieni top 10
                 leaderboard.sort((a, b) => b.score - a.score);
-                leaderboard = leaderboard.slice(0, 5);
+                leaderboard = leaderboard.slice(0, 10);
                 
-                // Backup locale
-                localStorage.setItem('leaderboard-backup', JSON.stringify(leaderboard));
-                
-                // Salva su JSONBin
-                const response = await fetch(JSONBIN_API, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-Access-Key': '$2a$10$YhJtJhXPNBKqGxN4Z4Z4Z4Z4Z4Z4Z4Z4Z4Z4Z4Z4Z4Z4Z4Z4Z4Z4'
-                    },
-                    body: JSON.stringify({
-                        leaderboard: leaderboard
-                    })
-                });
-                
-                if (response.ok) {
-                    console.log('✅ Punteggio salvato nella classifica pubblica!');
-                } else {
-                    console.warn('⚠️ Salvataggio classifica fallito, salvato localmente');
-                }
+                // Salva localmente
+                localStorage.setItem('jumpfrocest-leaderboard', JSON.stringify(leaderboard));
+                console.log('✅ Punteggio salvato nella classifica!');
             } catch (error) {
                 console.error('Errore salvataggio:', error);
             }
         }
         
-        async function showLeaderboard() {
+        function showLeaderboard() {
             const listDiv = document.getElementById('leaderboardList');
             listDiv.innerHTML = '<p style="color: white; padding: 20px;">⏳ Caricamento classifica...</p>';
             
-            const leaderboard = await getLeaderboard();
+            const leaderboard = getLeaderboard();
             
             if (leaderboard.length === 0) {
-                listDiv.innerHTML = '<p style="color: white; padding: 20px;">Nessun record ancora! Gioca per entrare nella top 5!</p>';
+                listDiv.innerHTML = '<p style="color: white; padding: 20px;">Nessun record ancora! Gioca per entrare nella top 10!</p>';
             } else {
                 listDiv.innerHTML = leaderboard.map((entry, index) => `
                     <div class="leaderboard-entry">
