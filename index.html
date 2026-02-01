@@ -575,6 +575,7 @@
             background: rgba(255,255,255,0.05);
             border-radius: 10px;
             border-left: 4px solid #FFD700;
+            gap: 10px;
         }
         
         .leaderboard-rank {
@@ -582,12 +583,15 @@
             font-weight: bold;
             color: #FFD700;
             min-width: 50px;
+            text-align: center;
         }
         
         .leaderboard-score {
-            font-size: 20px;
+            font-size: 22px;
             font-weight: bold;
             color: #4CAF50;
+            min-width: 80px;
+            text-align: right;
         }
         
         .coin-counter {
@@ -616,11 +620,95 @@
             display: inline-block;
         }
         
+        /* Welcome Screen */
+        #welcomeScreen {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0,0,0,0.9);
+            padding: 50px 40px;
+            border-radius: 20px;
+            text-align: center;
+            z-index: 40;
+            max-width: 90vw;
+            min-width: 320px;
+        }
+        
+        #welcomeScreen h1 {
+            color: #FFD700;
+            font-size: 42px;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.8);
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+        }
+        
+        #welcomeScreen p {
+            color: rgba(255,255,255,0.8);
+            font-size: 18px;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+        
+        #playerNameInput {
+            width: 100%;
+            max-width: 300px;
+            padding: 15px 20px;
+            font-size: 20px;
+            border: 3px solid #667eea;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            text-align: center;
+            margin-bottom: 25px;
+            outline: none;
+            transition: all 0.3s;
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+        }
+        
+        #playerNameInput::placeholder {
+            color: rgba(255,255,255,0.5);
+        }
+        
+        #playerNameInput:focus {
+            border-color: #FFD700;
+            background: rgba(255,255,255,0.15);
+            box-shadow: 0 0 20px rgba(255,215,0,0.3);
+        }
+        
+        #welcomeError {
+            color: #ff6b6b;
+            font-size: 14px;
+            margin-top: -15px;
+            margin-bottom: 15px;
+            min-height: 20px;
+        }
+        
         /* ========================================
            MEDIA QUERIES PER ANDROID CHROME
            ======================================== */
         
         @media screen and (max-width: 768px) {
+            #welcomeScreen {
+                padding: 40px 30px;
+                max-width: 95vw;
+            }
+            
+            #welcomeScreen h1 {
+                font-size: 36px;
+            }
+            
+            #welcomeScreen p {
+                font-size: 16px;
+            }
+            
+            #playerNameInput {
+                font-size: 18px;
+                padding: 12px 18px;
+            }
+            
             /* Game UI */
             #score {
                 font-size: 28px;
@@ -739,17 +827,32 @@
             }
             
             .leaderboard-entry {
-                padding: 12px;
+                padding: 12px 10px;
                 margin: 8px 0;
+                gap: 8px;
+            }
+            
+            .leaderboard-entry img {
+                width: 35px !important;
+                height: 35px !important;
+            }
+            
+            .leaderboard-entry > div > div > span:first-child {
+                font-size: 16px !important;
+            }
+            
+            .leaderboard-entry > div > div > span:last-child {
+                font-size: 13px !important;
             }
             
             .leaderboard-rank {
                 font-size: 20px;
-                min-width: 40px;
+                min-width: 35px;
             }
             
             .leaderboard-score {
                 font-size: 18px;
+                min-width: 70px;
             }
             
             /* Credits */
@@ -786,6 +889,19 @@
         
         @media screen and (max-width: 480px) {
             /* Extra small screens (small Android phones) */
+            #welcomeScreen h1 {
+                font-size: 30px;
+            }
+            
+            #welcomeScreen p {
+                font-size: 15px;
+            }
+            
+            #playerNameInput {
+                font-size: 16px;
+                padding: 10px 15px;
+            }
+            
             #score {
                 font-size: 24px;
                 top: 10px;
@@ -825,6 +941,34 @@
                 gap: 10px;
             }
             
+            .leaderboard-entry {
+                padding: 10px 8px;
+                gap: 6px;
+            }
+            
+            .leaderboard-entry img {
+                width: 32px !important;
+                height: 32px !important;
+            }
+            
+            .leaderboard-entry > div > div > span:first-child {
+                font-size: 15px !important;
+            }
+            
+            .leaderboard-entry > div > div > span:last-child {
+                font-size: 12px !important;
+            }
+            
+            .leaderboard-rank {
+                font-size: 18px;
+                min-width: 30px;
+            }
+            
+            .leaderboard-score {
+                font-size: 16px;
+                min-width: 60px;
+            }
+            
             .character-option {
                 width: 85px;
                 height: 85px;
@@ -833,8 +977,18 @@
     </style>
 </head>
 <body>
-    <div id="mainMenu">
-        <div class="version-label">ver. 2.2.0</div>
+    <!-- Welcome Screen -->
+    <div id="welcomeScreen">
+        <div class="version-label">ver. 2.3.1</div>
+        <h1>🌈 Benvenuto! 🌈</h1>
+        <p>Inserisci il tuo nome per iniziare l'avventura!</p>
+        <input type="text" id="playerNameInput" placeholder="Il tuo nome..." maxlength="20" autocomplete="off">
+        <div id="welcomeError"></div>
+        <button class="menu-btn" onclick="submitPlayerName()">Inizia! 🚀</button>
+    </div>
+    
+    <div id="mainMenu" style="display: none;">
+        <div class="version-label">ver. 2.3.1</div>
         <img src="https://i.imgur.com/m0pvm23.png" alt="Jump Frocest, Jump!" style="max-width: 90%; height: auto; margin-bottom: 20px;">
         <div class="menu-coin-display">
             💰 <span id="menuCoins">0</span> Monete
@@ -850,7 +1004,7 @@
     </div>
     
     <div id="characterSelect">
-        <div class="version-label">ver. 2.2.0</div>
+        <div class="version-label">ver. 2.3.1</div>
         <h2>Scegli il tuo Frociest! 💦</h2>
         <div class="character-grid">
             <div class="character-option" onclick="selectCharacter('ruben', this)">
@@ -873,7 +1027,7 @@
     </div>
     
     <div id="characterCard">
-        <div class="version-label">ver. 2.2.0</div>
+        <div class="version-label">ver. 2.3.1</div>
         <h2 id="cardCharacterName"></h2>
         <img id="cardCharacterImg" src="" alt="">
         <div class="ability-section">
@@ -886,7 +1040,7 @@
     </div>
     
     <div id="leaderboardMenu">
-        <div class="version-label">ver. 2.2.0</div>
+        <div class="version-label">ver. 2.3.1</div>
         <h2>🏆 Top 5 Record</h2>
         <div id="leaderboardList" style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px; margin: 20px 0; max-height: 400px; overflow-y: auto;">
             <!-- La classifica verrà riempita dinamicamente -->
@@ -895,7 +1049,7 @@
     </div>
     
     <div id="creditsMenu">
-        <div class="version-label">ver. 2.2.0</div>
+        <div class="version-label">ver. 2.3.1</div>
         <h2 style="color: #FFD700; font-size: 36px; margin-bottom: 30px;">Crediti</h2>
         <p style="color: white; font-size: 24px; margin-bottom: 20px;">developed by</p>
         <img src="https://i.imgur.com/N5L5BNN.png" alt="Flying Carpet" style="max-width: 200px; height: auto; margin-bottom: 30px;">
@@ -903,12 +1057,31 @@
     </div>
     
     <div id="changelogMenu">
-        <div class="version-label">ver. 2.2.0</div>
+        <div class="version-label">ver. 2.3.1</div>
         <h2>📋 Changelog</h2>
         
         <div id="changelogContent">
             <div class="changelog-version">
-                <h3>⭐ ver. 2.2.0 (Corrente)</h3>
+                <h3>⭐ ver. 2.3.1 (Corrente)</h3>
+                <h4>👤 Sistema Giocatori</h4>
+                <ul>
+                    <li>🌈 Schermata di benvenuto con inserimento nome</li>
+                    <li>💾 Nome salvato localmente (chiesto solo la prima volta)</li>
+                    <li>✏️ Input nome con validazione e gestione errori</li>
+                    <li>⌨️ Supporto tasto Enter per conferma rapida</li>
+                </ul>
+                <h4>🏆 Classifica Rinnovata</h4>
+                <ul>
+                    <li>🔄 Classifica resettata per nuova versione</li>
+                    <li>👥 Visualizzazione nome giocatore per ogni record</li>
+                    <li>🖼️ Icona personaggio con bordo dorato (40px)</li>
+                    <li>📊 Layout migliorato: Nome + Personaggio + Punteggio</li>
+                    <li>🎨 Design più pulito e professionale</li>
+                </ul>
+            </div>
+            
+            <div class="changelog-version">
+                <h3>ver. 2.2.0</h3>
                 <h4>📱 Ottimizzazione Completa Android Chrome</h4>
                 <ul>
                     <li>🎯 Tutti i menu ottimizzati per schermi Android</li>
@@ -1073,7 +1246,7 @@
     <div id="score">Altezza: 0m</div>
     <div id="coinsDisplay" style="display: none;">💰 <span id="gameCoins">0</span></div>
     <div id="gameOver">
-        <div class="version-label">ver. 2.2.0</div>
+        <div class="version-label">ver. 2.3.1</div>
         <h1>Game Over!</h1>
         <p id="finalScore"></p>
         <p id="coinsEarned" style="color: #FFD700;"></p>
@@ -1115,6 +1288,9 @@
         }
         
         resizeCanvas();
+        
+        // Nome giocatore
+        let playerName = localStorage.getItem('playerName') || '';
         
         // Sistema monete
         let totalCoins = parseInt(localStorage.getItem('totalCoins') || '0');
@@ -1226,6 +1402,57 @@
         
         updateMenuCoins();
         updateRefestOption();
+        
+        // Funzioni Welcome Screen
+        function submitPlayerName() {
+            const input = document.getElementById('playerNameInput');
+            const name = input.value.trim();
+            const errorDiv = document.getElementById('welcomeError');
+            
+            if (name.length === 0) {
+                errorDiv.textContent = '⚠️ Inserisci un nome!';
+                input.style.borderColor = '#ff6b6b';
+                return;
+            }
+            
+            if (name.length < 2) {
+                errorDiv.textContent = '⚠️ Il nome deve essere di almeno 2 caratteri!';
+                input.style.borderColor = '#ff6b6b';
+                return;
+            }
+            
+            // Salva il nome
+            playerName = name;
+            localStorage.setItem('playerName', playerName);
+            
+            // Nascondi welcome screen e mostra menu principale
+            document.getElementById('welcomeScreen').style.display = 'none';
+            document.getElementById('mainMenu').style.display = 'block';
+        }
+        
+        // Controlla se c'è già un nome salvato
+        function checkPlayerName() {
+            if (playerName && playerName.length > 0) {
+                document.getElementById('welcomeScreen').style.display = 'none';
+                document.getElementById('mainMenu').style.display = 'block';
+            }
+        }
+        
+        // Gestione Enter per submit
+        document.getElementById('playerNameInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                submitPlayerName();
+            }
+        });
+        
+        // Rimuovi errore quando l'utente scrive
+        document.getElementById('playerNameInput').addEventListener('input', function() {
+            document.getElementById('welcomeError').textContent = '';
+            this.style.borderColor = '#667eea';
+        });
+        
+        // Controlla al caricamento
+        checkPlayerName();
         
         function startGame() {
             document.getElementById('mainMenu').style.display = 'none';
@@ -1397,6 +1624,14 @@
         };
         
         function getLeaderboard() {
+            // Reset classifica - nuova versione 2.3.1
+            const version = localStorage.getItem('leaderboardVersion');
+            if (version !== '2.3.1') {
+                localStorage.removeItem('jumpFrocestScores');
+                localStorage.setItem('leaderboardVersion', '2.3.1');
+                return [];
+            }
+            
             const scores = localStorage.getItem('jumpFrocestScores');
             return scores ? JSON.parse(scores) : [];
         }
@@ -1405,9 +1640,10 @@
             let leaderboard = getLeaderboard();
             leaderboard.push({
                 score: Math.floor(score / 10),
-                date: new Date().toLocaleDateString(),
+                playerName: playerName || 'Giocatore',
                 character: characterNamesMap[character] || 'Frociest',
-                characterImg: characters[character].url
+                characterImg: characters[character].url,
+                date: new Date().toLocaleDateString()
             });
             leaderboard.sort((a, b) => b.score - a.score);
             leaderboard = leaderboard.slice(0, 5);
@@ -1424,11 +1660,13 @@
                 listDiv.innerHTML = leaderboard.map((entry, index) => `
                     <div class="leaderboard-entry">
                         <span class="leaderboard-rank">#${index + 1}</span>
-                        <div style="display: flex; align-items: center; gap: 10px;">
-                            <img src="${entry.characterImg || ''}" alt="${entry.character || 'Frociest'}" style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover;">
-                            <span>${entry.character || 'Frociest'}</span>
+                        <div style="display: flex; align-items: center; gap: 12px; flex: 1;">
+                            <img src="${entry.characterImg || ''}" alt="${entry.character || 'Frociest'}" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid #FFD700;">
+                            <div style="display: flex; flex-direction: column; align-items: flex-start;">
+                                <span style="font-weight: bold; color: white; font-size: 18px;">${entry.playerName || 'Giocatore'}</span>
+                                <span style="font-size: 14px; color: rgba(255,255,255,0.6);">${entry.character || 'Frociest'}</span>
+                            </div>
                         </div>
-                        <span>${entry.date || ''}</span>
                         <span class="leaderboard-score">${entry.score}m</span>
                     </div>
                 `).join('');
