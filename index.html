@@ -7,15 +7,13 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
-    <title>Jump Frocest, Jump!</title>
+    <title>Jump Frocest, Jump! v2.4.0</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             touch-action: none;
-            -webkit-text-size-adjust: 100%;
-            text-size-adjust: 100%;
         }
         
         body {
@@ -26,8 +24,6 @@
             -webkit-user-select: none;
             -webkit-touch-callout: none;
             -webkit-tap-highlight-color: transparent;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
         }
         
         #gameCanvas {
@@ -50,8 +46,6 @@
             color: white;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
             z-index: 10;
-            -webkit-text-size-adjust: 100%;
-            text-size-adjust: 100%;
         }
         
         #coinsDisplay {
@@ -66,8 +60,36 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            -webkit-text-size-adjust: 100%;
-            text-size-adjust: 100%;
+        }
+        
+        #scrollToTop {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: rgba(102, 126, 234, 0.9);
+            border: 3px solid white;
+            border-radius: 50%;
+            color: white;
+            font-size: 30px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 100;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            transition: all 0.3s;
+        }
+        
+        #scrollToTop:hover {
+            background: rgba(102, 126, 234, 1);
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+        }
+        
+        #scrollToTop:active {
+            transform: translateY(0);
         }
         
         #controls {
@@ -118,24 +140,18 @@
             text-align: center;
             display: none;
             z-index: 20;
-            max-width: 90vw;
         }
         
         #gameOver h1 {
             color: #ff6b6b;
             font-size: 36px;
             margin-bottom: 20px;
-            -webkit-text-size-adjust: 100%;
-            text-size-adjust: 100%;
         }
         
         #gameOver p {
             color: white;
             font-size: 24px;
             margin-bottom: 20px;
-            -webkit-text-size-adjust: 100%;
-            text-size-adjust: 100%;
-            word-wrap: break-word;
         }
         
         #gameOver button {
@@ -148,8 +164,6 @@
             cursor: pointer;
             transition: background 0.3s;
             margin: 5px;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
         }
         
         #gameOver button:hover {
@@ -174,7 +188,6 @@
             border-radius: 20px;
             text-align: center;
             z-index: 30;
-            max-width: 90vw;
         }
         
         #mainMenu h1 {
@@ -182,8 +195,6 @@
             font-size: 48px;
             margin-bottom: 30px;
             text-shadow: 3px 3px 6px rgba(0,0,0,0.8);
-            -webkit-text-size-adjust: 100%;
-            text-size-adjust: 100%;
         }
         
         .menu-btn {
@@ -200,10 +211,6 @@
             display: block;
             width: 250px;
             margin: 15px auto;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
-            -webkit-text-size-adjust: 100%;
-            text-size-adjust: 100%;
         }
         
         .menu-btn:hover {
@@ -234,16 +241,12 @@
             display: none;
             max-height: 90vh;
             overflow-y: auto;
-            max-width: 90vw;
-            -webkit-overflow-scrolling: touch;
         }
         
         #characterSelect h2 {
             color: #FFD700;
             font-size: 36px;
             margin-bottom: 30px;
-            -webkit-text-size-adjust: 100%;
-            text-size-adjust: 100%;
         }
         
         .character-grid {
@@ -420,27 +423,23 @@
             text-align: center;
             z-index: 30;
             display: none;
-            min-width: 300px;
-            max-width: 90vw;
-            max-height: 85vh;
+            min-width: 600px;
+            max-width: 80vw;
+            max-height: 80vh;
+            display: none;
         }
         
         #changelogMenu h2 {
             color: #FFD700;
             font-size: 36px;
             margin-bottom: 20px;
-            -webkit-text-size-adjust: 100%;
-            text-size-adjust: 100%;
         }
         
         #changelogContent {
-            max-height: 55vh;
-            overflow-y: auto;
-            overflow-x: hidden;
+            max-height: 50vh;
+            overflow: hidden;
             position: relative;
             -webkit-overflow-scrolling: touch;
-            overscroll-behavior: contain;
-            scroll-behavior: smooth;
         }
         
         .scroll-btn {
@@ -485,75 +484,27 @@
         
         .changelog-version h3 {
             color: #FFD700;
-            font-size: 22px;
+            font-size: 24px;
             margin-bottom: 10px;
-            line-height: 1.4;
-            -webkit-text-size-adjust: 100%;
-            text-size-adjust: 100%;
         }
         
         .changelog-version h4 {
             color: #667eea;
-            font-size: 17px;
+            font-size: 18px;
             margin: 15px 0 10px 0;
-            line-height: 1.3;
-            -webkit-text-size-adjust: 100%;
-            text-size-adjust: 100%;
         }
         
         .changelog-version ul {
             color: white;
             margin-left: 20px;
-            line-height: 1.7;
-            font-size: 15px;
-            -webkit-text-size-adjust: 100%;
-            text-size-adjust: 100%;
+            line-height: 1.6;
         }
         
         .changelog-version li {
-            margin: 8px 0;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
+            margin: 5px 0;
         }
-        
-        /* Media query per schermi piccoli (Android) */
-        @media screen and (max-width: 768px) {
-            #changelogMenu {
-                padding: 30px 20px 15px 20px;
-                max-width: 95vw;
-                min-width: unset;
-            }
-            
-            #changelogMenu h2 {
-                font-size: 28px;
-            }
-            
-            #changelogContent {
-                max-height: 60vh;
-            }
-            
-            .changelog-version {
-                padding: 15px;
-                margin: 10px 0;
-            }
-            
-            .changelog-version h3 {
-                font-size: 20px;
-            }
-            
-            .changelog-version h4 {
-                font-size: 16px;
-            }
-            
-            .changelog-version ul {
-                font-size: 14px;
-                line-height: 1.6;
-                margin-left: 15px;
-            }
-            
-            .changelog-version li {
-                margin: 6px 0;
-            }
+            display: none;
+            min-width: 400px;
         }
         
         .version-label {
@@ -575,7 +526,6 @@
             background: rgba(255,255,255,0.05);
             border-radius: 10px;
             border-left: 4px solid #FFD700;
-            gap: 10px;
         }
         
         .leaderboard-rank {
@@ -583,15 +533,12 @@
             font-weight: bold;
             color: #FFD700;
             min-width: 50px;
-            text-align: center;
         }
         
         .leaderboard-score {
-            font-size: 22px;
+            font-size: 20px;
             font-weight: bold;
             color: #4CAF50;
-            min-width: 80px;
-            text-align: right;
         }
         
         .coin-counter {
@@ -619,376 +566,11 @@
             margin: 20px auto;
             display: inline-block;
         }
-        
-        /* Welcome Screen */
-        #welcomeScreen {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(0,0,0,0.9);
-            padding: 50px 40px;
-            border-radius: 20px;
-            text-align: center;
-            z-index: 40;
-            max-width: 90vw;
-            min-width: 320px;
-        }
-        
-        #welcomeScreen h1 {
-            color: #FFD700;
-            font-size: 42px;
-            margin-bottom: 20px;
-            text-shadow: 3px 3px 6px rgba(0,0,0,0.8);
-            -webkit-text-size-adjust: 100%;
-            text-size-adjust: 100%;
-        }
-        
-        #welcomeScreen p {
-            color: rgba(255,255,255,0.8);
-            font-size: 18px;
-            margin-bottom: 30px;
-            line-height: 1.5;
-        }
-        
-        #playerNameInput {
-            width: 100%;
-            max-width: 300px;
-            padding: 15px 20px;
-            font-size: 20px;
-            border: 3px solid #667eea;
-            border-radius: 10px;
-            background: rgba(255,255,255,0.1);
-            color: white;
-            text-align: center;
-            margin-bottom: 25px;
-            outline: none;
-            transition: all 0.3s;
-            -webkit-text-size-adjust: 100%;
-            text-size-adjust: 100%;
-        }
-        
-        #playerNameInput::placeholder {
-            color: rgba(255,255,255,0.5);
-        }
-        
-        #playerNameInput:focus {
-            border-color: #FFD700;
-            background: rgba(255,255,255,0.15);
-            box-shadow: 0 0 20px rgba(255,215,0,0.3);
-        }
-        
-        #welcomeError {
-            color: #ff6b6b;
-            font-size: 14px;
-            margin-top: -15px;
-            margin-bottom: 15px;
-            min-height: 20px;
-        }
-        
-        /* ========================================
-           MEDIA QUERIES PER ANDROID CHROME
-           ======================================== */
-        
-        @media screen and (max-width: 768px) {
-            #welcomeScreen {
-                padding: 40px 30px;
-                max-width: 95vw;
-            }
-            
-            #welcomeScreen h1 {
-                font-size: 36px;
-            }
-            
-            #welcomeScreen p {
-                font-size: 16px;
-            }
-            
-            #playerNameInput {
-                font-size: 18px;
-                padding: 12px 18px;
-            }
-            
-            /* Game UI */
-            #score {
-                font-size: 28px;
-                top: 15px;
-            }
-            
-            #coinsDisplay {
-                font-size: 20px;
-                top: 15px;
-                left: 15px;
-            }
-            
-            #controls {
-                bottom: 20px;
-                padding: 0 20px;
-            }
-            
-            .control-btn {
-                width: 70px;
-                height: 70px;
-                font-size: 35px;
-            }
-            
-            /* Game Over */
-            #gameOver {
-                padding: 25px 20px;
-                max-width: 95vw;
-            }
-            
-            #gameOver h1 {
-                font-size: 30px;
-                margin-bottom: 15px;
-            }
-            
-            #gameOver p {
-                font-size: 20px;
-                margin-bottom: 15px;
-            }
-            
-            #gameOver button {
-                padding: 12px 30px;
-                font-size: 18px;
-                margin: 8px 5px;
-            }
-            
-            /* Main Menu */
-            #mainMenu {
-                padding: 30px 20px;
-                max-width: 95vw;
-            }
-            
-            #mainMenu h1 {
-                font-size: 38px;
-                margin-bottom: 25px;
-            }
-            
-            .menu-btn {
-                padding: 18px 40px;
-                font-size: 20px;
-                width: 220px;
-                margin: 12px auto;
-            }
-            
-            /* Character Select */
-            #characterSelect {
-                padding: 30px 20px;
-                max-width: 95vw;
-            }
-            
-            #characterSelect h2 {
-                font-size: 30px;
-                margin-bottom: 25px;
-            }
-            
-            .character-grid {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 15px;
-            }
-            
-            .character-option {
-                width: 100px;
-                height: 100px;
-            }
-            
-            /* Character Card */
-            #characterCard {
-                padding: 30px 20px;
-                max-width: 95vw;
-            }
-            
-            #characterCard h2 {
-                font-size: 30px;
-            }
-            
-            #characterCard img {
-                max-width: 180px;
-            }
-            
-            .ability-title {
-                font-size: 20px;
-            }
-            
-            .ability-description {
-                font-size: 15px;
-                line-height: 1.6;
-            }
-            
-            /* Leaderboard */
-            #leaderboardMenu {
-                padding: 30px 20px;
-                max-width: 95vw;
-            }
-            
-            #leaderboardMenu h2 {
-                font-size: 30px;
-            }
-            
-            .leaderboard-entry {
-                padding: 12px 10px;
-                margin: 8px 0;
-                gap: 8px;
-            }
-            
-            .leaderboard-entry img {
-                width: 35px !important;
-                height: 35px !important;
-            }
-            
-            .leaderboard-entry > div > div > span:first-child {
-                font-size: 16px !important;
-            }
-            
-            .leaderboard-entry > div > div > span:last-child {
-                font-size: 13px !important;
-            }
-            
-            .leaderboard-rank {
-                font-size: 20px;
-                min-width: 35px;
-            }
-            
-            .leaderboard-score {
-                font-size: 18px;
-                min-width: 70px;
-            }
-            
-            /* Credits */
-            #creditsMenu {
-                padding: 30px 20px;
-                max-width: 95vw;
-            }
-            
-            #creditsMenu h2 {
-                font-size: 30px !important;
-                margin-bottom: 20px !important;
-            }
-            
-            #creditsMenu p {
-                font-size: 20px !important;
-            }
-            
-            #creditsMenu img {
-                max-width: 150px !important;
-            }
-            
-            /* Menu Coins */
-            .menu-coin-display {
-                padding: 12px 20px;
-                font-size: 24px;
-            }
-            
-            /* Version Label */
-            .version-label {
-                font-size: 12px;
-                padding: 6px 12px;
-            }
-        }
-        
-        @media screen and (max-width: 480px) {
-            /* Extra small screens (small Android phones) */
-            #welcomeScreen h1 {
-                font-size: 30px;
-            }
-            
-            #welcomeScreen p {
-                font-size: 15px;
-            }
-            
-            #playerNameInput {
-                font-size: 16px;
-                padding: 10px 15px;
-            }
-            
-            #score {
-                font-size: 24px;
-                top: 10px;
-            }
-            
-            #coinsDisplay {
-                font-size: 18px;
-                top: 10px;
-                left: 10px;
-            }
-            
-            .control-btn {
-                width: 60px;
-                height: 60px;
-                font-size: 30px;
-            }
-            
-            #mainMenu h1 {
-                font-size: 32px;
-            }
-            
-            .menu-btn {
-                padding: 15px 30px;
-                font-size: 18px;
-                width: 200px;
-            }
-            
-            #characterSelect h2,
-            #characterCard h2,
-            #leaderboardMenu h2,
-            #creditsMenu h2 {
-                font-size: 26px !important;
-            }
-            
-            .character-grid {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 10px;
-            }
-            
-            .leaderboard-entry {
-                padding: 10px 8px;
-                gap: 6px;
-            }
-            
-            .leaderboard-entry img {
-                width: 32px !important;
-                height: 32px !important;
-            }
-            
-            .leaderboard-entry > div > div > span:first-child {
-                font-size: 15px !important;
-            }
-            
-            .leaderboard-entry > div > div > span:last-child {
-                font-size: 12px !important;
-            }
-            
-            .leaderboard-rank {
-                font-size: 18px;
-                min-width: 30px;
-            }
-            
-            .leaderboard-score {
-                font-size: 16px;
-                min-width: 60px;
-            }
-            
-            .character-option {
-                width: 85px;
-                height: 85px;
-            }
-        }
     </style>
 </head>
 <body>
-    <!-- Welcome Screen -->
-    <div id="welcomeScreen">
-        <div class="version-label">ver. 2.3.1</div>
-        <h1>🌈 Benvenuto! 🌈</h1>
-        <p>Inserisci il tuo nome per iniziare l'avventura!</p>
-        <input type="text" id="playerNameInput" placeholder="Il tuo nome..." maxlength="20" autocomplete="off">
-        <div id="welcomeError"></div>
-        <button class="menu-btn" onclick="submitPlayerName()">Inizia! 🚀</button>
-    </div>
-    
-    <div id="mainMenu" style="display: none;">
-        <div class="version-label">ver. 2.3.1</div>
+    <div id="mainMenu">
+        <div class="version-label">ver. 2.4.0</div>
         <img src="https://i.imgur.com/m0pvm23.png" alt="Jump Frocest, Jump!" style="max-width: 90%; height: auto; margin-bottom: 20px;">
         <div class="menu-coin-display">
             💰 <span id="menuCoins">0</span> Monete
@@ -1004,7 +586,7 @@
     </div>
     
     <div id="characterSelect">
-        <div class="version-label">ver. 2.3.1</div>
+        <div class="version-label">ver. 2.4.0</div>
         <h2>Scegli il tuo Frociest! 💦</h2>
         <div class="character-grid">
             <div class="character-option" onclick="selectCharacter('ruben', this)">
@@ -1027,7 +609,7 @@
     </div>
     
     <div id="characterCard">
-        <div class="version-label">ver. 2.3.1</div>
+        <div class="version-label">ver. 2.0.4b</div>
         <h2 id="cardCharacterName"></h2>
         <img id="cardCharacterImg" src="" alt="">
         <div class="ability-section">
@@ -1040,7 +622,7 @@
     </div>
     
     <div id="leaderboardMenu">
-        <div class="version-label">ver. 2.3.1</div>
+        <div class="version-label">ver. 2.0.4b</div>
         <h2>🏆 Top 5 Record</h2>
         <div id="leaderboardList" style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px; margin: 20px 0; max-height: 400px; overflow-y: auto;">
             <!-- La classifica verrà riempita dinamicamente -->
@@ -1049,7 +631,7 @@
     </div>
     
     <div id="creditsMenu">
-        <div class="version-label">ver. 2.3.1</div>
+        <div class="version-label">ver. 2.0.4b</div>
         <h2 style="color: #FFD700; font-size: 36px; margin-bottom: 30px;">Crediti</h2>
         <p style="color: white; font-size: 24px; margin-bottom: 20px;">developed by</p>
         <img src="https://i.imgur.com/N5L5BNN.png" alt="Flying Carpet" style="max-width: 200px; height: auto; margin-bottom: 30px;">
@@ -1057,81 +639,33 @@
     </div>
     
     <div id="changelogMenu">
-        <div class="version-label">ver. 2.3.1</div>
+        <div class="version-label">ver. 2.4.0</div>
         <h2>📋 Changelog</h2>
         
         <div id="changelogContent">
             <div class="changelog-version">
-                <h3>⭐ ver. 2.3.1 (Corrente)</h3>
-                <h4>👤 Sistema Giocatori</h4>
+                <h3>⭐ ver. 2.4.0 (Corrente)</h3>
+                <h4>🎮 Miglioramenti Gameplay</h4>
                 <ul>
-                    <li>🌈 Schermata di benvenuto con inserimento nome</li>
-                    <li>💾 Nome salvato localmente (chiesto solo la prima volta)</li>
-                    <li>✏️ Input nome con validazione e gestione errori</li>
-                    <li>⌨️ Supporto tasto Enter per conferma rapida</li>
+                    <li>⬆️ Aggiunto pulsante Scroll to Top nel changelog</li>
+                    <li>🎯 Sensibilità ridotta 8% (7.6 → 7.0)</li>
+                    <li>📏 Distanza pedane aumentata (85-150px)</li>
+                    <li>🎪 Molte più pedane monouso (25% base, max 55%)</li>
+                    <li>💰 Pedane monouso: 2% probabilità drop moneta</li>
+                    <li>🪙 Monete da pedane compatibili con Jules e Poz</li>
                 </ul>
-                <h4>🏆 Classifica Rinnovata</h4>
-                <ul>
-                    <li>🔄 Classifica resettata per nuova versione</li>
-                    <li>👥 Visualizzazione nome giocatore per ogni record</li>
-                    <li>🖼️ Icona personaggio con bordo dorato (40px)</li>
-                    <li>📊 Layout migliorato: Nome + Personaggio + Punteggio</li>
-                    <li>🎨 Design più pulito e professionale</li>
-                </ul>
-            </div>
-            
-            <div class="changelog-version">
-                <h3>ver. 2.2.0</h3>
-                <h4>📱 Ottimizzazione Completa Android Chrome</h4>
-                <ul>
-                    <li>🎯 Tutti i menu ottimizzati per schermi Android</li>
-                    <li>📐 Media queries responsive (@768px e @480px)</li>
-                    <li>✨ Font smoothing e text-size-adjust globali</li>
-                    <li>👆 Touch-action e tap-highlight ottimizzati</li>
-                    <li>📏 Dimensioni adattive per tutti gli elementi UI</li>
-                    <li>🔤 Leggibilità migliorata su ogni schermo</li>
-                </ul>
-                <h4>📝 Correzioni Descrizioni</h4>
-                <ul>
-                    <li>🦸 Ruben: "Una volta per partita" (non più "ogni 1500m")</li>
-                    <li>🦸 Vale: "10° salto doppio" (non più "11° salto triplo")</li>
-                    <li>📋 Descrizioni abilità aggiornate nelle schede personaggi</li>
-                </ul>
-            </div>
-            
-            <div class="changelog-version">
-                <h3>ver. 2.1.1</h3>
-                <h4>📱 Ottimizzazioni Mobile</h4>
-                <ul>
-                    <li>🤖 Migliorata leggibilità testi su Android Chrome</li>
-                    <li>📜 Ottimizzato scrolling changelog per touchscreen</li>
-                    <li>📐 Adattamento responsive per schermi piccoli</li>
-                    <li>✨ Font-size e line-height ottimizzati per mobile</li>
-                    <li>🎯 Text-size-adjust per prevenire auto-resize browser</li>
-                </ul>
-            </div>
-            
-            <div class="changelog-version">
-                <h3>ver. 2.1.0</h3>
                 <h4>⚖️ Bilanciamento Abilità</h4>
                 <ul>
-                    <li>🦸 Ruben: Super salto triplo → doppio</li>
-                    <li>🦸 Ruben: Abilità utilizzabile solo 1 volta per partita</li>
-                    <li>🦸 Vale: Super salto triplo → doppio</li>
-                    <li>🦸 Vale: Abilità ogni 1500m richiede 10 super salti completati</li>
-                    <li>🔢 Vale: Conteggio super salti mantenuto tra i checkpoint</li>
+                    <li>💎 Prezzo Refest: 3000 monete (era 2000)</li>
+                    <li>🔓 Abilità Refest: 500 monete</li>
+                    <li>🦸 Ruben: ora solo 1 volta per partita</li>
+                    <li>⚡ Vale: salto doppio al 15° super salto</li>
                 </ul>
-                <h4>✨ Nuove Funzionalità</h4>
+                <h4>💰 Prezzi</h4>
                 <ul>
-                    <li>💰 Pedane monouso: 2% probabilità di dare 1 moneta</li>
-                    <li>💎 Monete da pedane soggette all'abilità di Jules (bonus x10)</li>
-                    <li>🎯 Monete da pedane rilasciate anche con abilità Poz attiva</li>
-                    <li>⬆️ Pulsante scroll in alto aggiunto al Changelog</li>
-                </ul>
-                <h4>🐛 Bug Fix</h4>
-                <ul>
-                    <li>🔧 Risolto bug conteggio abilità azzerato ogni 1500m</li>
-                    <li>💾 Progressi personali salvati localmente per ogni utente</li>
+                    <li>Abilità base: 200 monete ciascuno</li>
+                    <li>Refest personaggio: 3000 monete</li>
+                    <li>Refest abilità: 500 monete (dopo tutte le altre)</li>
                 </ul>
             </div>
             
@@ -1187,7 +721,7 @@
                 <h4>🦸‍♂️ Abilità Personaggi</h4>
                 <ul>
                     <li>Ruben - "Katso in Q-lo": Salvataggio da game over</li>
-                    <li>Vale - "Who says i'm gae?": 10° salto doppio (dopo 10 super salti)</li>
+                    <li>Vale - "Who says i'm gae?": 11° salto triplo</li>
                     <li>Poz - "You are gae": Pedane monouso indistruttibili</li>
                     <li>Jules - "Why are you gae?": 5% chance bonus monete x10</li>
                     <li>Refest - "IL BUCO DEL Q-LO": Tutte le abilità</li>
@@ -1238,7 +772,6 @@
             </div>
         </div>
         
-        <button class="scroll-btn" id="scrollUpBtn" onclick="scrollChangelogUp()">▲</button>
         <button class="scroll-btn" id="scrollDownBtn" onclick="scrollChangelogDown()">▼</button>
         <button class="menu-btn" onclick="closeChangelog()">Indietro</button>
     </div>
@@ -1246,7 +779,7 @@
     <div id="score">Altezza: 0m</div>
     <div id="coinsDisplay" style="display: none;">💰 <span id="gameCoins">0</span></div>
     <div id="gameOver">
-        <div class="version-label">ver. 2.3.1</div>
+        <div class="version-label">ver. 2.0.4b</div>
         <h1>Game Over!</h1>
         <p id="finalScore"></p>
         <p id="coinsEarned" style="color: #FFD700;"></p>
@@ -1259,6 +792,9 @@
         <div class="control-btn" id="leftBtn">◄</div>
         <div class="control-btn" id="rightBtn">►</div>
     </div>
+    
+    <!-- Pulsante Scroll to Top -->
+    <div id="scrollToTop" onclick="scrollToTop()">▲</div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
     <script>
@@ -1289,9 +825,6 @@
         
         resizeCanvas();
         
-        // Nome giocatore
-        let playerName = localStorage.getItem('playerName') || '';
-        
         // Sistema monete
         let totalCoins = parseInt(localStorage.getItem('totalCoins') || '0');
         let sessionCoins = 0;
@@ -1310,7 +843,7 @@
                 name: 'Vale',
                 url: 'https://i.imgur.com/cdpQskO.png',
                 abilityName: 'Who says i\'m gae?',
-                abilityDesc: 'Una volta ogni 1500m, dopo 10 super salti, il 10° è doppio',
+                abilityDesc: 'Una volta ogni 1500m, dopo 14 super salti, il 15° è doppio',
                 unlocked: false,
                 price: 200
             },
@@ -1337,7 +870,8 @@
                 abilityDesc: 'Ha tutte le abilità dei personaggi precedenti',
                 unlocked: false,
                 isCharacterLocked: true,
-                price: 2000
+                price: 3000,
+                abilityPrice: 500
             }
         };
         
@@ -1403,57 +937,6 @@
         updateMenuCoins();
         updateRefestOption();
         
-        // Funzioni Welcome Screen
-        function submitPlayerName() {
-            const input = document.getElementById('playerNameInput');
-            const name = input.value.trim();
-            const errorDiv = document.getElementById('welcomeError');
-            
-            if (name.length === 0) {
-                errorDiv.textContent = '⚠️ Inserisci un nome!';
-                input.style.borderColor = '#ff6b6b';
-                return;
-            }
-            
-            if (name.length < 2) {
-                errorDiv.textContent = '⚠️ Il nome deve essere di almeno 2 caratteri!';
-                input.style.borderColor = '#ff6b6b';
-                return;
-            }
-            
-            // Salva il nome
-            playerName = name;
-            localStorage.setItem('playerName', playerName);
-            
-            // Nascondi welcome screen e mostra menu principale
-            document.getElementById('welcomeScreen').style.display = 'none';
-            document.getElementById('mainMenu').style.display = 'block';
-        }
-        
-        // Controlla se c'è già un nome salvato
-        function checkPlayerName() {
-            if (playerName && playerName.length > 0) {
-                document.getElementById('welcomeScreen').style.display = 'none';
-                document.getElementById('mainMenu').style.display = 'block';
-            }
-        }
-        
-        // Gestione Enter per submit
-        document.getElementById('playerNameInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                submitPlayerName();
-            }
-        });
-        
-        // Rimuovi errore quando l'utente scrive
-        document.getElementById('playerNameInput').addEventListener('input', function() {
-            document.getElementById('welcomeError').textContent = '';
-            this.style.borderColor = '#667eea';
-        });
-        
-        // Controlla al caricamento
-        checkPlayerName();
-        
         function startGame() {
             document.getElementById('mainMenu').style.display = 'none';
             document.getElementById('characterSelect').style.display = 'block';
@@ -1517,22 +1000,24 @@
                     }
                 }
                 
+                const abilityPrice = charKey === 'refest' ? selectedCharacterData.abilityPrice : selectedCharacterData.price;
                 statusDiv.innerHTML = `
                     <p class="ability-locked">🔒 Abilità Bloccata</p>
                     <button class="unlock-btn" onclick="unlockAbility()" id="unlockBtn">
-                        Sblocca (${selectedCharacterData.price} 💰)
+                        Sblocca (${abilityPrice} 💰)
                     </button>
                 `;
                 
-                if (totalCoins < selectedCharacterData.price) {
+                if (totalCoins < abilityPrice) {
                     document.getElementById('unlockBtn').disabled = true;
                 }
             }
         }
         
         function unlockAbility() {
-            if (totalCoins >= selectedCharacterData.price) {
-                totalCoins -= selectedCharacterData.price;
+            const abilityPrice = selectedCharacter === 'refest' ? selectedCharacterData.abilityPrice : selectedCharacterData.price;
+            if (totalCoins >= abilityPrice) {
+                totalCoins -= abilityPrice;
                 localStorage.setItem('totalCoins', totalCoins);
                 selectedCharacterData.unlocked = true;
                 
@@ -1610,7 +1095,9 @@
                 moving: false,
                 direction: 1,
                 speed: 0,
-                type: 'normal'
+                type: 'normal',
+                used: false,
+                coinDropped: false
             });
         }
         
@@ -1624,14 +1111,6 @@
         };
         
         function getLeaderboard() {
-            // Reset classifica - nuova versione 2.3.1
-            const version = localStorage.getItem('leaderboardVersion');
-            if (version !== '2.3.1') {
-                localStorage.removeItem('jumpFrocestScores');
-                localStorage.setItem('leaderboardVersion', '2.3.1');
-                return [];
-            }
-            
             const scores = localStorage.getItem('jumpFrocestScores');
             return scores ? JSON.parse(scores) : [];
         }
@@ -1640,10 +1119,9 @@
             let leaderboard = getLeaderboard();
             leaderboard.push({
                 score: Math.floor(score / 10),
-                playerName: playerName || 'Giocatore',
+                date: new Date().toLocaleDateString(),
                 character: characterNamesMap[character] || 'Frociest',
-                characterImg: characters[character].url,
-                date: new Date().toLocaleDateString()
+                characterImg: characters[character].url
             });
             leaderboard.sort((a, b) => b.score - a.score);
             leaderboard = leaderboard.slice(0, 5);
@@ -1660,13 +1138,11 @@
                 listDiv.innerHTML = leaderboard.map((entry, index) => `
                     <div class="leaderboard-entry">
                         <span class="leaderboard-rank">#${index + 1}</span>
-                        <div style="display: flex; align-items: center; gap: 12px; flex: 1;">
-                            <img src="${entry.characterImg || ''}" alt="${entry.character || 'Frociest'}" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid #FFD700;">
-                            <div style="display: flex; flex-direction: column; align-items: flex-start;">
-                                <span style="font-weight: bold; color: white; font-size: 18px;">${entry.playerName || 'Giocatore'}</span>
-                                <span style="font-size: 14px; color: rgba(255,255,255,0.6);">${entry.character || 'Frociest'}</span>
-                            </div>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <img src="${entry.characterImg || ''}" alt="${entry.character || 'Frociest'}" style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover;">
+                            <span>${entry.character || 'Frociest'}</span>
                         </div>
+                        <span>${entry.date || ''}</span>
                         <span class="leaderboard-score">${entry.score}m</span>
                     </div>
                 `).join('');
@@ -1706,11 +1182,6 @@
         function scrollChangelogDown() {
             const content = document.getElementById('changelogContent');
             content.scrollTop += 200; // Scroll di 200px alla volta
-        }
-        
-        function scrollChangelogUp() {
-            const content = document.getElementById('changelogContent');
-            content.scrollTop -= 200; // Scroll di 200px alla volta
         }
         
         // Inizializza suoni
@@ -1785,7 +1256,7 @@
             jumping: false,
             gravity: 0.4,
             jumpPower: -12,
-            speed: 7.6
+            speed: 7.0
         };
         
         // Piattaforme
@@ -1807,7 +1278,8 @@
             direction: 1,
             speed: 0,
             type: 'normal',
-            used: false
+            used: false,
+            coinDropped: false
         });
         
         // Controlli con pulsanti
@@ -1918,17 +1390,18 @@
                 direction: Math.random() < 0.5 ? -1 : 1,
                 speed: Math.random() * 2 + 1,
                 type: 'normal',
-                used: false
+                used: false,
+                coinDropped: false
             };
             
             // Calcola probabilità pedane monouso in base all'altezza
             const currentHeight = Math.floor(maxHeight / 10);
-            let breakableChance = 0.15; // Base 15%
+            let breakableChance = 0.25; // Base 25% (aumentato da 15%)
             
             // Aumenta progressivamente ogni 500m
             if (currentHeight > 500) {
                 breakableChance += Math.floor((currentHeight - 500) / 500) * 0.05; // +5% ogni 500m
-                breakableChance = Math.min(breakableChance, 0.45); // Massimo 45%
+                breakableChance = Math.min(breakableChance, 0.55); // Massimo 55%
             }
             
             const rand = Math.random();
@@ -1996,23 +1469,17 @@
                         const hasPozAbility = (selectedCharacter === 'poz' && selectedCharacterData.unlocked) ||
                                             (selectedCharacter === 'refest' && characters.poz.unlocked);
                         
-                        // 2% probabilità di rilasciare una moneta (sempre, anche con abilità Poz)
-                        if (Math.random() < 0.02) {
-                            // Abilità Jules - 5% chance di 10x monete
-                            let coinsToAdd = 1;
-                            if ((selectedCharacter === 'jules' && selectedCharacterData.unlocked) ||
-                                (selectedCharacter === 'refest' && characters.jules.unlocked)) {
-                                if (Math.random() < 0.05) {
-                                    coinsToAdd = 10;
-                                }
-                            }
-                            
-                            sessionCoins += coinsToAdd;
-                            totalCoins += coinsToAdd;
-                            localStorage.setItem('totalCoins', totalCoins);
-                            updateGameCoins();
-                            updateMenuCoins();
-                            playCoin();
+                        // Drop moneta dalle pedane monouso (2% probabilità)
+                        // Solo la prima volta che si tocca la pedana (anche con Poz attivo)
+                        if (!platform.coinDropped && Math.random() < 0.02) {
+                            coins.push({
+                                x: platform.x + platform.width / 2,
+                                y: platform.y - 20,
+                                size: coinSize,
+                                collected: false,
+                                fromBreakable: true // Tag per identificare monete da pedane monouso
+                            });
+                            platform.coinDropped = true;
                         }
                         
                         if (!hasPozAbility) {
@@ -2028,8 +1495,8 @@
                         (selectedCharacter === 'refest' && characters.vale.unlocked)) {
                         if (platform.type === 'booster') {
                             abilityCounters.valeBoostCount++;
-                            if (abilityCounters.valeBoostCount >= 10 && !abilityCounters.valeUsed) {
-                                jumpMultiplier = 2;
+                            if (abilityCounters.valeBoostCount === 15 && !abilityCounters.valeUsed) {
+                                jumpMultiplier = 2; // Salto doppio invece di triplo
                                 abilityCounters.valeBoostCount = 0;
                                 abilityCounters.valeUsed = true;
                                 abilityCounters.valeDistance = Math.floor(maxHeight / 10);
@@ -2088,12 +1555,11 @@
                 }
             });
             
-            // Reset abilità Vale ogni 1500m (Ruben è una volta per partita)
+            // Reset abilità ogni 1500m dallo start (non cumulabile)
             const currentDistance = Math.floor(maxHeight / 10);
             const valeCooldown = Math.floor(currentDistance / 1500) * 1500;
             
-            // Reset per Vale ogni 1500m - può riutilizzare l'abilità
-            // Il contatore valeBoostCount viene mantenuto e non resettato
+            // Ruben non ha più cooldown - una volta per partita
             if (currentDistance >= valeCooldown + 1500 && abilityCounters.valeUsed) {
                 abilityCounters.valeUsed = false;
                 abilityCounters.valeDistance = valeCooldown + 1500;
@@ -2124,7 +1590,7 @@
             
             while (platforms.length < 15) {
                 const lastPlatform = platforms[platforms.length - 1];
-                const newY = lastPlatform.y - (Math.random() * 60 + 80); // Aumentata distanza: 80-140px
+                const newY = lastPlatform.y - (Math.random() * 65 + 85); // Aumentata distanza: 85-150px
                 createPlatform(newY);
             }
             
@@ -2276,7 +1742,8 @@
                 direction: 1,
                 speed: 0,
                 type: 'normal',
-                used: false
+                used: false,
+                coinDropped: false
             });
             
             for (let i = 1; i < 10; i++) {
@@ -2313,6 +1780,28 @@
             }
             lastTouchEnd = now;
         }, false);
+        
+        // Funzione Scroll to Top
+        function scrollToTop() {
+            const changelogContent = document.getElementById('changelogContent');
+            if (changelogContent) {
+                changelogContent.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+        
+        // Mostra/nascondi pulsante scroll to top in base allo scroll del changelog
+        const changelogContent = document.getElementById('changelogContent');
+        const scrollTopBtn = document.getElementById('scrollToTop');
+        
+        if (changelogContent) {
+            changelogContent.addEventListener('scroll', function() {
+                if (this.scrollTop > 200) {
+                    scrollTopBtn.style.display = 'flex';
+                } else {
+                    scrollTopBtn.style.display = 'none';
+                }
+            });
+        }
         
         // Nascondi controlli e score inizialmente
         document.getElementById('controls').style.display = 'none';
