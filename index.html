@@ -540,7 +540,7 @@
 </head>
 <body>
     <div id="mainMenu">
-        <div class="version-label">ver. 2.0.4b</div>
+        <div class="version-label">ver. 2.1.0</div>
         <img src="https://i.imgur.com/m0pvm23.png" alt="Jump Frocest, Jump!" style="max-width: 90%; height: auto; margin-bottom: 20px;">
         <div class="menu-coin-display">
             💰 <span id="menuCoins">0</span> Monete
@@ -556,7 +556,7 @@
     </div>
     
     <div id="characterSelect">
-        <div class="version-label">ver. 2.0.4b</div>
+        <div class="version-label">ver. 2.1.0</div>
         <h2>Scegli il tuo Frociest! 💦</h2>
         <div class="character-grid">
             <div class="character-option" onclick="selectCharacter('ruben', this)">
@@ -579,7 +579,7 @@
     </div>
     
     <div id="characterCard">
-        <div class="version-label">ver. 2.0.4b</div>
+        <div class="version-label">ver. 2.1.0</div>
         <h2 id="cardCharacterName"></h2>
         <img id="cardCharacterImg" src="" alt="">
         <div class="ability-section">
@@ -592,7 +592,7 @@
     </div>
     
     <div id="leaderboardMenu">
-        <div class="version-label">ver. 2.0.4b</div>
+        <div class="version-label">ver. 2.1.0</div>
         <h2>🏆 Top 5 Record</h2>
         <div id="leaderboardList" style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px; margin: 20px 0; max-height: 400px; overflow-y: auto;">
             <!-- La classifica verrà riempita dinamicamente -->
@@ -601,7 +601,7 @@
     </div>
     
     <div id="creditsMenu">
-        <div class="version-label">ver. 2.0.4b</div>
+        <div class="version-label">ver. 2.1.0</div>
         <h2 style="color: #FFD700; font-size: 36px; margin-bottom: 30px;">Crediti</h2>
         <p style="color: white; font-size: 24px; margin-bottom: 20px;">developed by</p>
         <img src="https://i.imgur.com/N5L5BNN.png" alt="Flying Carpet" style="max-width: 200px; height: auto; margin-bottom: 30px;">
@@ -609,12 +609,36 @@
     </div>
     
     <div id="changelogMenu">
-        <div class="version-label">ver. 2.0.4bb</div>
+        <div class="version-label">ver. 2.1.0</div>
         <h2>📋 Changelog</h2>
         
         <div id="changelogContent">
             <div class="changelog-version">
-                <h3>⭐ ver. 2.0.4bb (Corrente)</h3>
+                <h3>⭐ ver. 2.1.0 (Corrente)</h3>
+                <h4>⚖️ Bilanciamento Abilità</h4>
+                <ul>
+                    <li>🦸 Ruben: Super salto triplo → doppio</li>
+                    <li>🦸 Ruben: Abilità utilizzabile solo 1 volta per partita</li>
+                    <li>🦸 Vale: Super salto triplo → doppio</li>
+                    <li>🦸 Vale: Abilità ogni 1500m richiede 10 super salti completati</li>
+                    <li>🔢 Vale: Conteggio super salti mantenuto tra i checkpoint</li>
+                </ul>
+                <h4>✨ Nuove Funzionalità</h4>
+                <ul>
+                    <li>💰 Pedane monouso: 2% probabilità di dare 1 moneta</li>
+                    <li>💎 Monete da pedane soggette all'abilità di Jules (bonus x10)</li>
+                    <li>🎯 Monete da pedane rilasciate anche con abilità Poz attiva</li>
+                    <li>⬆️ Pulsante scroll in alto aggiunto al Changelog</li>
+                </ul>
+                <h4>🐛 Bug Fix</h4>
+                <ul>
+                    <li>🔧 Risolto bug conteggio abilità azzerato ogni 1500m</li>
+                    <li>💾 Progressi personali salvati localmente per ogni utente</li>
+                </ul>
+            </div>
+            
+            <div class="changelog-version">
+                <h3>ver. 2.1.0b</h3>
                 <h4>🐛 Bug Fix</h4>
                 <ul>
                     <li>🔧 Bug minori risolti</li>
@@ -624,7 +648,7 @@
             </div>
             
             <div class="changelog-version">
-                <h3>ver. 2.0.4b</h3>
+                <h3>ver. 2.1.0</h3>
                 <h4>✨ Nuove Funzionalità</h4>
                 <ul>
                     <li>📋 Aggiunto menu Changelog completo</li>
@@ -716,6 +740,7 @@
             </div>
         </div>
         
+        <button class="scroll-btn" id="scrollUpBtn" onclick="scrollChangelogUp()">▲</button>
         <button class="scroll-btn" id="scrollDownBtn" onclick="scrollChangelogDown()">▼</button>
         <button class="menu-btn" onclick="closeChangelog()">Indietro</button>
     </div>
@@ -723,7 +748,7 @@
     <div id="score">Altezza: 0m</div>
     <div id="coinsDisplay" style="display: none;">💰 <span id="gameCoins">0</span></div>
     <div id="gameOver">
-        <div class="version-label">ver. 2.0.4b</div>
+        <div class="version-label">ver. 2.1.0</div>
         <h1>Game Over!</h1>
         <p id="finalScore"></p>
         <p id="coinsEarned" style="color: #FFD700;"></p>
@@ -1120,6 +1145,11 @@
             content.scrollTop += 200; // Scroll di 200px alla volta
         }
         
+        function scrollChangelogUp() {
+            const content = document.getElementById('changelogContent');
+            content.scrollTop -= 200; // Scroll di 200px alla volta
+        }
+        
         // Inizializza suoni
         let soundsReady = false;
         let jumpSound, boostSound, gameOverSound, coinSound;
@@ -1403,6 +1433,25 @@
                         const hasPozAbility = (selectedCharacter === 'poz' && selectedCharacterData.unlocked) ||
                                             (selectedCharacter === 'refest' && characters.poz.unlocked);
                         
+                        // 2% probabilità di rilasciare una moneta (sempre, anche con abilità Poz)
+                        if (Math.random() < 0.02) {
+                            // Abilità Jules - 5% chance di 10x monete
+                            let coinsToAdd = 1;
+                            if ((selectedCharacter === 'jules' && selectedCharacterData.unlocked) ||
+                                (selectedCharacter === 'refest' && characters.jules.unlocked)) {
+                                if (Math.random() < 0.05) {
+                                    coinsToAdd = 10;
+                                }
+                            }
+                            
+                            sessionCoins += coinsToAdd;
+                            totalCoins += coinsToAdd;
+                            localStorage.setItem('totalCoins', totalCoins);
+                            updateGameCoins();
+                            updateMenuCoins();
+                            playCoin();
+                        }
+                        
                         if (!hasPozAbility) {
                             platform.used = true;
                             platform.toRemove = true; // Marca per rimozione
@@ -1416,8 +1465,8 @@
                         (selectedCharacter === 'refest' && characters.vale.unlocked)) {
                         if (platform.type === 'booster') {
                             abilityCounters.valeBoostCount++;
-                            if (abilityCounters.valeBoostCount === 11 && !abilityCounters.valeUsed) {
-                                jumpMultiplier = 3;
+                            if (abilityCounters.valeBoostCount >= 10 && !abilityCounters.valeUsed) {
+                                jumpMultiplier = 2;
                                 abilityCounters.valeBoostCount = 0;
                                 abilityCounters.valeUsed = true;
                                 abilityCounters.valeDistance = Math.floor(maxHeight / 10);
@@ -1476,15 +1525,12 @@
                 }
             });
             
-            // Reset abilità ogni 1500m dallo start (non cumulabile)
+            // Reset abilità Vale ogni 1500m (Ruben è una volta per partita)
             const currentDistance = Math.floor(maxHeight / 10);
-            const rubenCooldown = Math.floor(currentDistance / 1500) * 1500;
             const valeCooldown = Math.floor(currentDistance / 1500) * 1500;
             
-            if (currentDistance >= rubenCooldown + 1500 && abilityCounters.rubenUsed) {
-                abilityCounters.rubenUsed = false;
-                abilityCounters.rubenDistance = rubenCooldown + 1500;
-            }
+            // Reset per Vale ogni 1500m - può riutilizzare l'abilità
+            // Il contatore valeBoostCount viene mantenuto e non resettato
             if (currentDistance >= valeCooldown + 1500 && abilityCounters.valeUsed) {
                 abilityCounters.valeUsed = false;
                 abilityCounters.valeDistance = valeCooldown + 1500;
