@@ -393,23 +393,27 @@
             text-align: center;
             z-index: 30;
             display: none;
-            min-width: 600px;
-            max-width: 80vw;
-            max-height: 80vh;
-            display: none;
+            min-width: 300px;
+            max-width: 90vw;
+            max-height: 85vh;
         }
         
         #changelogMenu h2 {
             color: #FFD700;
             font-size: 36px;
             margin-bottom: 20px;
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
         }
         
         #changelogContent {
-            max-height: 50vh;
-            overflow: hidden;
+            max-height: 55vh;
+            overflow-y: auto;
+            overflow-x: hidden;
             position: relative;
             -webkit-overflow-scrolling: touch;
+            overscroll-behavior: contain;
+            scroll-behavior: smooth;
         }
         
         .scroll-btn {
@@ -454,27 +458,75 @@
         
         .changelog-version h3 {
             color: #FFD700;
-            font-size: 24px;
+            font-size: 22px;
             margin-bottom: 10px;
+            line-height: 1.4;
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
         }
         
         .changelog-version h4 {
             color: #667eea;
-            font-size: 18px;
+            font-size: 17px;
             margin: 15px 0 10px 0;
+            line-height: 1.3;
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
         }
         
         .changelog-version ul {
             color: white;
             margin-left: 20px;
-            line-height: 1.6;
+            line-height: 1.7;
+            font-size: 15px;
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
         }
         
         .changelog-version li {
-            margin: 5px 0;
+            margin: 8px 0;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
-            display: none;
-            min-width: 400px;
+        
+        /* Media query per schermi piccoli (Android) */
+        @media screen and (max-width: 768px) {
+            #changelogMenu {
+                padding: 30px 20px 15px 20px;
+                max-width: 95vw;
+                min-width: unset;
+            }
+            
+            #changelogMenu h2 {
+                font-size: 28px;
+            }
+            
+            #changelogContent {
+                max-height: 60vh;
+            }
+            
+            .changelog-version {
+                padding: 15px;
+                margin: 10px 0;
+            }
+            
+            .changelog-version h3 {
+                font-size: 20px;
+            }
+            
+            .changelog-version h4 {
+                font-size: 16px;
+            }
+            
+            .changelog-version ul {
+                font-size: 14px;
+                line-height: 1.6;
+                margin-left: 15px;
+            }
+            
+            .changelog-version li {
+                margin: 6px 0;
+            }
         }
         
         .version-label {
@@ -540,7 +592,7 @@
 </head>
 <body>
     <div id="mainMenu">
-        <div class="version-label">ver. 2.1.0</div>
+        <div class="version-label">ver. 2.1.1</div>
         <img src="https://i.imgur.com/m0pvm23.png" alt="Jump Frocest, Jump!" style="max-width: 90%; height: auto; margin-bottom: 20px;">
         <div class="menu-coin-display">
             💰 <span id="menuCoins">0</span> Monete
@@ -556,7 +608,7 @@
     </div>
     
     <div id="characterSelect">
-        <div class="version-label">ver. 2.1.0</div>
+        <div class="version-label">ver. 2.1.1</div>
         <h2>Scegli il tuo Frociest! 💦</h2>
         <div class="character-grid">
             <div class="character-option" onclick="selectCharacter('ruben', this)">
@@ -579,7 +631,7 @@
     </div>
     
     <div id="characterCard">
-        <div class="version-label">ver. 2.1.0</div>
+        <div class="version-label">ver. 2.1.1</div>
         <h2 id="cardCharacterName"></h2>
         <img id="cardCharacterImg" src="" alt="">
         <div class="ability-section">
@@ -592,7 +644,7 @@
     </div>
     
     <div id="leaderboardMenu">
-        <div class="version-label">ver. 2.1.0</div>
+        <div class="version-label">ver. 2.1.1</div>
         <h2>🏆 Top 5 Record</h2>
         <div id="leaderboardList" style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px; margin: 20px 0; max-height: 400px; overflow-y: auto;">
             <!-- La classifica verrà riempita dinamicamente -->
@@ -601,7 +653,7 @@
     </div>
     
     <div id="creditsMenu">
-        <div class="version-label">ver. 2.1.0</div>
+        <div class="version-label">ver. 2.1.1</div>
         <h2 style="color: #FFD700; font-size: 36px; margin-bottom: 30px;">Crediti</h2>
         <p style="color: white; font-size: 24px; margin-bottom: 20px;">developed by</p>
         <img src="https://i.imgur.com/N5L5BNN.png" alt="Flying Carpet" style="max-width: 200px; height: auto; margin-bottom: 30px;">
@@ -609,12 +661,24 @@
     </div>
     
     <div id="changelogMenu">
-        <div class="version-label">ver. 2.1.0</div>
+        <div class="version-label">ver. 2.1.1</div>
         <h2>📋 Changelog</h2>
         
         <div id="changelogContent">
             <div class="changelog-version">
-                <h3>⭐ ver. 2.1.0 (Corrente)</h3>
+                <h3>⭐ ver. 2.1.1 (Corrente)</h3>
+                <h4>📱 Ottimizzazioni Mobile</h4>
+                <ul>
+                    <li>🤖 Migliorata leggibilità testi su Android Chrome</li>
+                    <li>📜 Ottimizzato scrolling changelog per touchscreen</li>
+                    <li>📐 Adattamento responsive per schermi piccoli</li>
+                    <li>✨ Font-size e line-height ottimizzati per mobile</li>
+                    <li>🎯 Text-size-adjust per prevenire auto-resize browser</li>
+                </ul>
+            </div>
+            
+            <div class="changelog-version">
+                <h3>ver. 2.1.0</h3>
                 <h4>⚖️ Bilanciamento Abilità</h4>
                 <ul>
                     <li>🦸 Ruben: Super salto triplo → doppio</li>
@@ -638,7 +702,7 @@
             </div>
             
             <div class="changelog-version">
-                <h3>ver. 2.1.0b</h3>
+                <h3>ver. 2.0.4bb</h3>
                 <h4>🐛 Bug Fix</h4>
                 <ul>
                     <li>🔧 Bug minori risolti</li>
@@ -648,7 +712,7 @@
             </div>
             
             <div class="changelog-version">
-                <h3>ver. 2.1.0</h3>
+                <h3>ver. 2.0.4b</h3>
                 <h4>✨ Nuove Funzionalità</h4>
                 <ul>
                     <li>📋 Aggiunto menu Changelog completo</li>
@@ -748,7 +812,7 @@
     <div id="score">Altezza: 0m</div>
     <div id="coinsDisplay" style="display: none;">💰 <span id="gameCoins">0</span></div>
     <div id="gameOver">
-        <div class="version-label">ver. 2.1.0</div>
+        <div class="version-label">ver. 2.1.1</div>
         <h1>Game Over!</h1>
         <p id="finalScore"></p>
         <p id="coinsEarned" style="color: #FFD700;"></p>
