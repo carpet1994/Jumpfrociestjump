@@ -7,7 +7,11 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
-    <title>Jump Frocest, Jump! v2.4.0</title>
+    <!-- Ottimizzazione Android -->
+    <meta name="theme-color" content="#87CEEB">
+    <meta name="android-mobile-web-app-capable" content="yes">
+    <meta name="HandheldFriendly" content="true">
+    <title>Jump Frocest, Jump! v2.4.1</title>
     <style>
         * {
             margin: 0;
@@ -570,7 +574,7 @@
 </head>
 <body>
     <div id="mainMenu">
-        <div class="version-label">ver. 2.4.0</div>
+        <div class="version-label">ver. 2.4.1</div>
         <img src="https://i.imgur.com/m0pvm23.png" alt="Jump Frocest, Jump!" style="max-width: 90%; height: auto; margin-bottom: 20px;">
         <div class="menu-coin-display">
             💰 <span id="menuCoins">0</span> Monete
@@ -586,7 +590,7 @@
     </div>
     
     <div id="characterSelect">
-        <div class="version-label">ver. 2.4.0</div>
+        <div class="version-label">ver. 2.4.1</div>
         <h2>Scegli il tuo Frociest! 💦</h2>
         <div class="character-grid">
             <div class="character-option" onclick="selectCharacter('ruben', this)">
@@ -639,12 +643,24 @@
     </div>
     
     <div id="changelogMenu">
-        <div class="version-label">ver. 2.4.0</div>
+        <div class="version-label">ver. 2.4.1</div>
         <h2>📋 Changelog</h2>
         
         <div id="changelogContent">
             <div class="changelog-version">
-                <h3>⭐ ver. 2.4.0 (Corrente)</h3>
+                <h3>⭐ ver. 2.4.1 (Corrente)</h3>
+                <h4>🔧 Correzioni e Ottimizzazioni</h4>
+                <ul>
+                    <li>⬆️ Pulsante Scroll to Top ora appare solo nel changelog</li>
+                    <li>📱 Ottimizzazioni complete per Android</li>
+                    <li>🎨 Sfondo celeste ottimizzato per Android</li>
+                    <li>💰 Monete da pedane monouso ora si aggiungono automaticamente</li>
+                    <li>🎮 Migliorata compatibilità touch su Android</li>
+                </ul>
+            </div>
+            
+            <div class="changelog-version">
+                <h3>ver. 2.4.0</h3>
                 <h4>🎮 Miglioramenti Gameplay</h4>
                 <ul>
                     <li>⬆️ Aggiunto pulsante Scroll to Top nel changelog</li>
@@ -1169,14 +1185,20 @@
         
         function showChangelog() {
             document.getElementById('mainMenu').style.display = 'none';
-            document.getElementById('changelogMenu').style.display = 'block';
+            const changelogMenu = document.getElementById('changelogMenu');
+            changelogMenu.style.display = 'block';
+            changelogMenu.classList.add('changelog-open');
             // Reset scroll position
             document.getElementById('changelogContent').scrollTop = 0;
         }
         
         function closeChangelog() {
-            document.getElementById('changelogMenu').style.display = 'none';
+            const changelogMenu = document.getElementById('changelogMenu');
+            changelogMenu.style.display = 'none';
+            changelogMenu.classList.remove('changelog-open');
             document.getElementById('mainMenu').style.display = 'block';
+            // Nascondi il pulsante scroll quando si chiude il changelog
+            document.getElementById('scrollToTop').style.display = 'none';
         }
         
         function scrollChangelogDown() {
@@ -1472,13 +1494,24 @@
                         // Drop moneta dalle pedane monouso (2% probabilità)
                         // Solo la prima volta che si tocca la pedana (anche con Poz attivo)
                         if (!platform.coinDropped && Math.random() < 0.02) {
-                            coins.push({
-                                x: platform.x + platform.width / 2,
-                                y: platform.y - 20,
-                                size: coinSize,
-                                collected: false,
-                                fromBreakable: true // Tag per identificare monete da pedane monouso
-                            });
+                            // Aggiungi moneta automaticamente invece di crearla fisicamente
+                            let coinsToAdd = 1;
+                            
+                            // Abilità Jules - 5% chance di 10x monete (applicata anche alle monete da pedane)
+                            if ((selectedCharacter === 'jules' && selectedCharacterData.unlocked) ||
+                                (selectedCharacter === 'refest' && characters.jules.unlocked)) {
+                                if (Math.random() < 0.05) {
+                                    coinsToAdd = 10;
+                                }
+                            }
+                            
+                            sessionCoins += coinsToAdd;
+                            totalCoins += coinsToAdd;
+                            localStorage.setItem('totalCoins', totalCoins);
+                            updateGameCoins();
+                            updateMenuCoins();
+                            playCoin();
+                            
                             platform.coinDropped = true;
                         }
                         
@@ -1795,7 +1828,9 @@
         
         if (changelogContent) {
             changelogContent.addEventListener('scroll', function() {
-                if (this.scrollTop > 200) {
+                const changelogMenu = document.getElementById('changelogMenu');
+                // Mostra solo se il changelog è aperto E si è scrollato oltre 200px
+                if (changelogMenu.classList.contains('changelog-open') && this.scrollTop > 200) {
                     scrollTopBtn.style.display = 'flex';
                 } else {
                     scrollTopBtn.style.display = 'none';
