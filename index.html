@@ -625,95 +625,11 @@
             display: inline-block;
         }
         
-        /* Welcome Screen */
-        #welcomeScreen {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(0,0,0,0.9);
-            padding: 50px 40px;
-            border-radius: 20px;
-            text-align: center;
-            z-index: 40;
-            max-width: 90vw;
-            min-width: 320px;
-        }
-        
-        #welcomeScreen h1 {
-            color: #FFD700;
-            font-size: 42px;
-            margin-bottom: 20px;
-            text-shadow: 3px 3px 6px rgba(0,0,0,0.8);
-            -webkit-text-size-adjust: 100%;
-            text-size-adjust: 100%;
-        }
-        
-        #welcomeScreen p {
-            color: rgba(255,255,255,0.8);
-            font-size: 18px;
-            margin-bottom: 30px;
-            line-height: 1.5;
-        }
-        
-        #playerNameInput {
-            width: 100%;
-            max-width: 300px;
-            padding: 15px 20px;
-            font-size: 20px;
-            border: 3px solid #667eea;
-            border-radius: 10px;
-            background: rgba(255,255,255,0.1);
-            color: white;
-            text-align: center;
-            margin-bottom: 25px;
-            outline: none;
-            transition: all 0.3s;
-            -webkit-text-size-adjust: 100%;
-            text-size-adjust: 100%;
-        }
-        
-        #playerNameInput::placeholder {
-            color: rgba(255,255,255,0.5);
-        }
-        
-        #playerNameInput:focus {
-            border-color: #FFD700;
-            background: rgba(255,255,255,0.15);
-            box-shadow: 0 0 20px rgba(255,215,0,0.3);
-        }
-        
-        #welcomeError {
-            color: #ff6b6b;
-            font-size: 14px;
-            margin-top: -15px;
-            margin-bottom: 15px;
-            min-height: 20px;
-        }
-        
         /* ========================================
            MEDIA QUERIES PER ANDROID CHROME
            ======================================== */
         
         @media screen and (max-width: 768px) {
-            #welcomeScreen {
-                padding: 40px 30px;
-                max-width: 95vw;
-            }
-            
-            #welcomeScreen h1 {
-                font-size: 36px;
-            }
-            
-            #welcomeScreen p {
-                font-size: 16px;
-            }
-            
-            #playerNameInput {
-                font-size: 18px;
-                padding: 12px 18px;
-            }
-            
             /* Game UI */
             #score {
                 font-size: 28px;
@@ -894,19 +810,6 @@
         
         @media screen and (max-width: 480px) {
             /* Extra small screens (small Android phones) */
-            #welcomeScreen h1 {
-                font-size: 30px;
-            }
-            
-            #welcomeScreen p {
-                font-size: 15px;
-            }
-            
-            #playerNameInput {
-                font-size: 16px;
-                padding: 10px 15px;
-            }
-            
             #score {
                 font-size: 24px;
                 top: 10px;
@@ -982,18 +885,8 @@
     </style>
 </head>
 <body>
-    <!-- Welcome Screen -->
-    <div id="welcomeScreen">
-        <div class="version-label">ver. 2.3.5</div>
-        <h1>🌈 Benvenuto! 🌈</h1>
-        <p>Inserisci il tuo nome per iniziare l'avventura!</p>
-        <input type="text" id="playerNameInput" placeholder="Il tuo nome..." maxlength="20" autocomplete="off">
-        <div id="welcomeError"></div>
-        <button class="menu-btn" onclick="submitPlayerName()">Inizia! 🚀</button>
-    </div>
-    
-    <div id="mainMenu" style="display: none;">
-        <div class="version-label">ver. 2.3.5</div>
+    <div id="mainMenu">
+        <div class="version-label">ver. 2.3.6</div>
         <img src="https://i.imgur.com/m0pvm23.png" alt="Jump Frocest, Jump!" style="max-width: 90%; height: auto; margin-bottom: 20px;">
         <div class="menu-coin-display">
             💰 <span id="menuCoins">0</span> Monete
@@ -1009,7 +902,7 @@
     </div>
     
     <div id="characterSelect">
-        <div class="version-label">ver. 2.3.5</div>
+        <div class="version-label">ver. 2.3.6</div>
         <h2>Scegli il tuo Frociest! 💦</h2>
         <div class="character-grid">
             <div class="character-option" onclick="selectCharacter('ruben', this)">
@@ -1032,7 +925,7 @@
     </div>
     
     <div id="characterCard">
-        <div class="version-label">ver. 2.3.5</div>
+        <div class="version-label">ver. 2.3.6</div>
         <h2 id="cardCharacterName"></h2>
         <img id="cardCharacterImg" src="" alt="">
         <div class="ability-section">
@@ -1045,7 +938,7 @@
     </div>
     
     <div id="leaderboardMenu">
-        <div class="version-label">ver. 2.3.5</div>
+        <div class="version-label">ver. 2.3.6</div>
         <h2>🏆 Top 10 Record Globali</h2>
         <div id="leaderboardList" style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px; margin: 20px 0; max-height: 400px; overflow-y: auto;">
             <!-- La classifica verrà riempita dinamicamente -->
@@ -1054,7 +947,7 @@
     </div>
     
     <div id="creditsMenu">
-        <div class="version-label">ver. 2.3.5</div>
+        <div class="version-label">ver. 2.3.6</div>
         <h2 style="color: #FFD700; font-size: 36px; margin-bottom: 30px;">Crediti</h2>
         <p style="color: white; font-size: 24px; margin-bottom: 20px;">developed by</p>
         <img src="https://i.imgur.com/N5L5BNN.png" alt="Flying Carpet" style="max-width: 200px; height: auto; margin-bottom: 30px;">
@@ -1062,12 +955,23 @@
     </div>
     
     <div id="changelogMenu">
-        <div class="version-label">ver. 2.3.5</div>
+        <div class="version-label">ver. 2.3.6</div>
         <h2>📋 Changelog</h2>
         
         <div id="changelogContent">
             <div class="changelog-version">
-                <h3>⭐ ver. 2.3.5 (Corrente)</h3>
+                <h3>⭐ ver. 2.3.6 (Corrente)</h3>
+                <h4>🎯 Semplificazione UX</h4>
+                <ul>
+                    <li>🚫 Rimossa schermata inserimento nome</li>
+                    <li>⚡ Accesso diretto al menu principale</li>
+                    <li>🎮 Esperienza più immediata e fluida</li>
+                    <li>📝 Sistema nome mantenuto nella classifica (auto "Giocatore")</li>
+                </ul>
+            </div>
+            
+            <div class="changelog-version">
+                <h3>ver. 2.3.5</h3>
                 <h4>🔧 Configurazione Completa GitHub</h4>
                 <ul>
                     <li>✅ Configurazione GitHub preimpostata (carpet1994/Jumpfrociestjump)</li>
@@ -1355,8 +1259,8 @@
         // Inizializza Firebase
         initFirebase();
         
-        // Nome giocatore
-        let playerName = localStorage.getItem('playerName') || '';
+        // Nome giocatore - Fisso a "Giocatore"
+        let playerName = 'Giocatore';
         
         // Sistema monete
         let totalCoins = parseInt(localStorage.getItem('totalCoins') || '0');
@@ -1468,57 +1372,6 @@
         
         updateMenuCoins();
         updateRefestOption();
-        
-        // Funzioni Welcome Screen
-        function submitPlayerName() {
-            const input = document.getElementById('playerNameInput');
-            const name = input.value.trim();
-            const errorDiv = document.getElementById('welcomeError');
-            
-            if (name.length === 0) {
-                errorDiv.textContent = '⚠️ Inserisci un nome!';
-                input.style.borderColor = '#ff6b6b';
-                return;
-            }
-            
-            if (name.length < 2) {
-                errorDiv.textContent = '⚠️ Il nome deve essere di almeno 2 caratteri!';
-                input.style.borderColor = '#ff6b6b';
-                return;
-            }
-            
-            // Salva il nome
-            playerName = name;
-            localStorage.setItem('playerName', playerName);
-            
-            // Nascondi welcome screen e mostra menu principale
-            document.getElementById('welcomeScreen').style.display = 'none';
-            document.getElementById('mainMenu').style.display = 'block';
-        }
-        
-        // Controlla se c'è già un nome salvato
-        function checkPlayerName() {
-            if (playerName && playerName.length > 0) {
-                document.getElementById('welcomeScreen').style.display = 'none';
-                document.getElementById('mainMenu').style.display = 'block';
-            }
-        }
-        
-        // Gestione Enter per submit
-        document.getElementById('playerNameInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                submitPlayerName();
-            }
-        });
-        
-        // Rimuovi errore quando l'utente scrive
-        document.getElementById('playerNameInput').addEventListener('input', function() {
-            document.getElementById('welcomeError').textContent = '';
-            this.style.borderColor = '#667eea';
-        });
-        
-        // Controlla al caricamento
-        checkPlayerName();
         
         function startGame() {
             document.getElementById('mainMenu').style.display = 'none';
